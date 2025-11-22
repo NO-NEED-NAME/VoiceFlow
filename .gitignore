@@ -1,0 +1,39 @@
+# --- Dependencies (کتابخانه‌ها) ---
+node_modules/
+/backend/venv/
+/backend/.venv/
+/venv/
+
+# --- Python Compiled Files (فایل‌های موقت پایتون) ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Environment Variables (بسیار مهم: رمزها آپلود نشوند) ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
+
+# --- Build Outputs (خروجی‌های بیلد) ---
+build/
+dist/
+frontend/build/
+
+# --- Logs (لاگ‌های خطا) ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# --- System Files (فایل‌های سیستم عامل) ---
+.DS_Store
+Thumbs.db
+
+# --- IDE Settings (تنظیمات ادیتور) ---
+.vscode/
+.idea/
