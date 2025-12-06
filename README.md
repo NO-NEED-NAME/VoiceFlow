@@ -4,7 +4,6 @@ VoiceFlow is a modern, full-stack Text-to-Speech (TTS) application that converts
 
 It uses **Microsoft Edge TTS** technology to provide high-quality, neural voices without requiring any paid API keys (like OpenAI).
 
-*(Note: You can add a screenshot of your app here)*
 
 ## ✨ Features
 
