@@ -1,12 +1,12 @@
 # VoiceFlow 🎙️
 
 <p align="center">
-  <strong>High-Quality, Natural AI Text-to-Speech Web Application — 100% Free & Unlimited</strong>
+  <strong>Modern Full-Stack Text-to-Speech Web Application — Free to Use Without API Keys</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/NO-NEED-NAME/VoiceFlow/releases/latest">
-    <img src="https://img.shields.io/github/v/release/NO-NEED-NAME/VoiceFlow?color=7c3aed&label=Latest%20Release&style=flat-square" alt="Latest Release">
+  <a href="https://github.com/NO-NEED-NAME/VoiceFlow/releases">
+    <img src="https://img.shields.io/github/v/tag/NO-NEED-NAME/VoiceFlow?color=7c3aed&label=Version&style=flat-square" alt="Version">
   </a>
   <a href="https://github.com/NO-NEED-NAME/VoiceFlow/actions/workflows/ci.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/NO-NEED-NAME/VoiceFlow/ci.yml?branch=main&label=CI%20Build&style=flat-square" alt="CI Status">
@@ -14,14 +14,14 @@
   <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT">
   <img src="https://img.shields.io/badge/React-18-61dafb?style=flat-square&logo=react" alt="React">
   <img src="https://img.shields.io/badge/FastAPI-0.100+-009688?style=flat-square&logo=fastapi" alt="FastAPI">
-  <img src="https://img.shields.io/badge/Edge--TTS-Neural-0078d4?style=flat-square" alt="Edge TTS">
+  <img src="https://img.shields.io/badge/Edge--TTS-Community-0078d4?style=flat-square" alt="Edge TTS">
 </p>
 
 ---
 
-VoiceFlow is a modern, full-stack Text-to-Speech (TTS) application that converts text into natural-sounding speech completely for **FREE**. 
+VoiceFlow is an open-source, full-stack Text-to-Speech (TTS) application that converts written text into natural-sounding speech **without requiring paid API keys or subscription tokens** (such as OpenAI or ElevenLabs). 
 
-It harnesses **Microsoft Edge TTS** neural voice models to generate high-fidelity audio without requiring paid subscriptions, credit cards, or costly third-party API keys (such as OpenAI or ElevenLabs).
+It connects to Microsoft's neural voice technology using the community-maintained `edge-tts` engine, providing a decoupled FastAPI backend and React frontend.
 
 ---
 
@@ -35,21 +35,32 @@ It harnesses **Microsoft Edge TTS** neural voice models to generate high-fidelit
 
 ## 📦 Releases
 
-You can download the latest stable release archive directly from GitHub:
-
-- 🚀 **[Latest Stable Release (v1.0.0)](https://github.com/NO-NEED-NAME/VoiceFlow/releases/latest)**
-- 📋 **[Release Notes & Changelog](https://github.com/NO-NEED-NAME/VoiceFlow/releases)**
+- 🚀 **[Releases & Tags Overview](https://github.com/NO-NEED-NAME/VoiceFlow/releases)**
+- 🏷️ **Current Tag:** [`v1.0.0`](https://github.com/NO-NEED-NAME/VoiceFlow/releases/tag/v1.0.0)
 
 ---
 
 ## ✨ Features
 
-- **100% Free & Unlimited:** No subscription, credit card, or proprietary API key required.
-- **High-Quality Neural Voices:** Leverages Microsoft Edge's natural multi-lingual voice synthesis.
-- **Dynamic Speed Control:** Adjust playback speech rate seamlessly from 0.25x up to 4.0x.
-- **Modern & Responsive UI:** Clean glassmorphism/dark theme built with React and Tailwind CSS.
-- **Instant Audio Player & Download:** Listen to the synthesized output right in your browser or export as MP3.
-- **Dual-Stack Architecture:** Decoupled FastAPI backend and React frontend for optimal performance.
+- **No Paid API Keys Required:** Free to run locally for testing, research, and personal use without billing or token metering.
+- **Natural Neural Voices:** Leverages neural voice synthesis models with multi-accent support.
+- **Dynamic Speech Rate:** Fine-tune playback speed from 0.25x up to 4.0x.
+- **Modern UI:** Built with React, Tailwind CSS, and Lucide icons.
+- **Instant Audio Player & Download:** Listen to the generated speech directly in-browser or download as MP3.
+- **Decoupled Architecture:** Clean separation between Python (FastAPI) API and React frontend.
+
+---
+
+## ⚠️ Architecture Note & Limitations
+
+> [!WARNING]
+> **Unofficial Upstream Endpoint:**
+> VoiceFlow utilizes the open-source `edge-tts` Python library, which interfaces with the public endpoints powering Microsoft Edge's "Read Aloud" browser capability.
+>
+> **Considerations for Evaluators & Production Use:**
+> 1. **No SLA Guarantee:** Because this relies on an unofficial upstream service, it does not provide an enterprise Service Level Agreement (SLA). The endpoint may be subject to occasional rate limiting, connection throttling, or upstream protocol updates by Microsoft.
+> 2. **Network Dependency:** Stable internet connectivity is required to reach the TTS endpoints.
+> 3. **Production Recommendation:** For commercial or high-availability deployments, the modular backend can be transitioned to official cloud SDKs (e.g., Azure Speech Services) or self-hosted offline engines (e.g., Piper, Coqui TTS).
 
 ---
 
@@ -59,8 +70,8 @@ You can download the latest stable release archive directly from GitHub:
 | :--- | :--- |
 | **Frontend** | React.js, Tailwind CSS, Lucide React, Axios |
 | **Backend** | Python 3.9+, FastAPI, Edge-TTS, Motor (Async MongoDB Driver) |
-| **Database** | MongoDB *(Optional — used for saving conversion history)* |
-| **CI / CD** | GitHub Actions Workflow |
+| **Database** | MongoDB *(Optional — used for logging conversion history)* |
+| **CI / CD** | GitHub Actions Workflow (`ci.yml`) |
 
 ---
 
@@ -109,7 +120,7 @@ Follow the steps below to run VoiceFlow on your local machine.
    ```bash
    python server.py
    ```
-   > The API will be available at: **http://localhost:8000** (API Docs at `http://localhost:8000/docs`)
+   > The API will start at: **http://localhost:8000** (Swagger documentation at `http://localhost:8000/docs`)
 
 ---
 
@@ -128,7 +139,7 @@ Follow the steps below to run VoiceFlow on your local machine.
    > **💡 Why is `--legacy-peer-deps` required?**
    > Starting from **npm v7+**, npm automatically resolves and enforces peer dependencies strictly. If any nested package specifies a peer dependency for an older React major version (for instance, older icon packages or Tailwind utilities expecting `react@^17.0.0` while the project uses `react@^18.0.0`), standard `npm install` halts with an `ERESOLVE unable to resolve dependency tree` error.
    > 
-   > The `--legacy-peer-deps` flag instructs npm to revert to npm v4–v6 peer dependency resolution behavior, safely ignoring non-breaking transitive version discrepancies so installation finishes smoothly.
+   > The `--legacy-peer-deps` flag instructs npm to revert to npm v4–v6 peer dependency resolution behavior, safely bypassing non-breaking transitive version discrepancies so installation finishes smoothly.
    > 
    > *Tip:* If you prefer running plain `npm install` without typing the flag each time, you can create a `.npmrc` file in your `frontend/` directory with:
    > ```ini
@@ -146,7 +157,7 @@ Follow the steps below to run VoiceFlow on your local machine.
 ## 📝 How to Use
 
 1. **Enter Text:** Paste or type the text you want converted into speech.
-2. **Select Voice:** Choose your preferred neural voice (Male / Female, English or international accents).
+2. **Select Voice:** Choose your preferred neural voice (Male / Female, accents).
 3. **Adjust Speed:** Set the desired speech rate between 0.25x and 4.0x.
 4. **Generate:** Click **⚡ Generate Speech**.
 5. **Listen & Export:** Stream audio playback directly or click **⬇ Download MP3** to save the file.
@@ -155,16 +166,16 @@ Follow the steps below to run VoiceFlow on your local machine.
 
 ## 🗺️ Roadmap & Active Development
 
-VoiceFlow is actively maintained and expanding! Check out our open issues to see what's currently in progress:
+VoiceFlow is actively evolving. The following items represent our current development roadmap:
 
-- [x] v1.0.0 Initial release with Edge-TTS and React UI
-- [ ] Pitch and volume modulation controls ([#1](https://github.com/NO-NEED-NAME/VoiceFlow/issues))
-- [ ] Long-text automated sentence chunking and streaming ([#2](https://github.com/NO-NEED-NAME/VoiceFlow/issues))
-- [ ] Persistent generation history drawer ([#3](https://github.com/NO-NEED-NAME/VoiceFlow/issues))
-- [ ] Subtitle & SRT/VTT file export ([#4](https://github.com/NO-NEED-NAME/VoiceFlow/issues))
-- [ ] Docker Compose containerization ([#5](https://github.com/NO-NEED-NAME/VoiceFlow/issues))
+- [x] **v1.0.0 Tag:** Initial dual-stack architecture (FastAPI backend + React frontend).
+- [ ] **Pitch & Volume Controls:** Extend UI controls to expose Edge-TTS pitch and volume adjustment flags.
+- [ ] **Smart Text Chunking:** Split lengthy text into paragraph chunks to avoid stream timeouts on long conversions.
+- [ ] **Persistent Audio History:** Option to store past generations locally or in MongoDB.
+- [ ] **Subtitle Export:** Support generating word-level timestamps and SRT/VTT subtitle files.
+- [ ] **Containerization:** Provide Dockerfile and Docker Compose configurations for one-command deployment.
 
-👉 **View all open issues or request a feature at [VoiceFlow Issues](https://github.com/NO-NEED-NAME/VoiceFlow/issues)**.
+👉 **View all open issues or request a feature at [VoiceFlow Issues Tracker](https://github.com/NO-NEED-NAME/VoiceFlow/issues)**.
 
 ---
 
