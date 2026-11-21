@@ -1,0 +1,71 @@
+name: VoiceFlow CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-checks:
+    name: Backend CI (Python / FastAPI)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install backend dependencies & Syntax check
+        run: |
+          if [ -d "backend" ]; then
+            cd backend
+            python -m pip install --upgrade pip
+            if [ -f "requirements.txt" ]; then
+              pip install -r requirements.txt
+            fi
+            echo "Running python compile check..."
+            python -m compileall .
+          else
+            echo "backend directory not found or at root, running root checks if any..."
+            if [ -f "requirements.txt" ]; then
+              pip install -r requirements.txt
+            fi
+          fi
+
+  frontend-checks:
+    name: Frontend CI (React / Tailwind)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies & Build
+        run: |
+          if [ -d "frontend" ]; then
+            cd frontend
+            echo "Installing frontend dependencies with legacy-peer-deps..."
+            npm install --legacy-peer-deps
+            echo "Building frontend..."
+            npm run build --if-present
+          else
+            echo "frontend directory not found, checking root package.json..."
+            if [ -f "package.json" ]; then
+              npm install --legacy-peer-deps
+              npm run build --if-present
+            fi
+          fi
